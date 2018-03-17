@@ -26,7 +26,6 @@ def vgg_preprocess(x):
     """
         Subtracts the mean RGB value, and transposes RGB to BGR.
         The mean RGB was computed on the image set used to train the VGG model.
-
         Args: 
             x: Image array (height x width x channels)
         Returns:
@@ -62,7 +61,6 @@ class Vgg16():
     def predict(self, imgs, details=False):
         """
             Predict the labels of a set of images using the VGG16 model.
-
             Args:
                 imgs (ndarray)    : An array of N images (size: N x width x height x channels).
                 details : ??
@@ -87,7 +85,6 @@ class Vgg16():
         """
             Adds a specified number of ZeroPadding and Covolution layers
             to the model, and a MaxPooling layer at the very end.
-
             Args:
                 layers (int):   The number of zero padded convolution layers
                                 to be added to the model.
@@ -105,7 +102,6 @@ class Vgg16():
         """
             Adds a fully connected layer of 4096 neurons to the model with a
             Dropout of 0.5
-
             Args:   None
             Returns:   None
         """
@@ -117,7 +113,6 @@ class Vgg16():
     def create(self):
         """
             Creates the VGG16 network achitecture and loads the pretrained weights.
-
             Args:   None
             Returns:   None
         """
@@ -142,7 +137,6 @@ class Vgg16():
     def get_batches(self, path, gen=image.ImageDataGenerator(), shuffle=True, batch_size=8, class_mode='categorical'):
         """
             Takes the path to a directory, and generates batches of augmented/normalized data. Yields batches indefinitely, in an infinite loop.
-
             See Keras documentation: https://keras.io/preprocessing/image/
         """
         return gen.flow_from_directory(path, target_size=(224,224),
@@ -154,7 +148,6 @@ class Vgg16():
             Replace the last layer of the model with a Dense (fully connected) layer of num neurons.
             Will also lock the weights of all layers except the new layer so that we only learn
             weights for the last layer in subsequent training.
-
             Args:
                 num (int) : Number of neurons in the Dense layer
             Returns:
@@ -216,7 +209,6 @@ class Vgg16():
     def test(self, path, batch_size=8):
         """
             Predicts the classes using the trained model on data yielded batch-by-batch.
-
             Args:
                 path (string):  Path to the target directory. It should contain one subdirectory 
                                 per class.
@@ -228,4 +220,3 @@ class Vgg16():
         """
         test_batches = self.get_batches(path, shuffle=False, batch_size=batch_size, class_mode=None)
         return test_batches, self.model.predict_generator(test_batches, test_batches.nb_sample)
-
